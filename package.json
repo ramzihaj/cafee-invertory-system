@@ -1,0 +1,27 @@
+{
+  "name": "cafe-inventory-system",
+  "version": "1.0.0",
+  "description": "Système de gestion complet pour café avec rôles, commandes et inventaire",
+  "main": "index.js",
+  "scripts": {
+    "setup": "powershell -ExecutionPolicy Bypass -File ./setup.ps1",
+    "start": "powershell -ExecutionPolicy Bypass -File ./start.ps1",
+    "seed": "cd server && node seeders/demo-data.js",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev"
+  },
+  "keywords": [
+    "inventory",
+    "cafe",
+    "restaurant",
+    "pos",
+    "management",
+    "mern"
+  ],
+  "author": "Cafe Inventory Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ramzihaj/cafee-invertory-system"
+  }
+}

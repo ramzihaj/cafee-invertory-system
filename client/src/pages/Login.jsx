@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Coffee, Mail, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuthStore from '../store/authStore';
@@ -126,6 +126,16 @@ const Login = () => {
                 Employé
               </button>
             </div>
+          </div>
+
+          {/* Lien inscription */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Vous avez un code d'accès ?{' '}
+              <Link to="/register" className="font-medium text-coffee-600 hover:text-coffee-700">
+                S'inscrire
+              </Link>
+            </p>
           </div>
         </div>
 

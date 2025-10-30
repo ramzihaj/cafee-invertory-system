@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -8,6 +8,9 @@ import {
   TrendingUp,
   FileText,
   User,
+  Users,
+  ShoppingCart,
+  Grid,
   LogOut,
   Menu,
   X,
@@ -20,14 +23,53 @@ const Layout = ({ children }) => {
   const { user, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const navigation = [
-    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-    { name: 'Produits', href: '/products', icon: Package },
-    { name: 'Catégories', href: '/categories', icon: Layers },
-    { name: 'Fournisseurs', href: '/suppliers', icon: Truck },
-    { name: 'Mouvements', href: '/movements', icon: TrendingUp },
-    { name: 'Rapports', href: '/reports', icon: FileText },
-  ];
+  // Navigation différenciée par rôle
+  const getNavigation = () => {
+    const baseNav = [
+      { name: 'Dashboard', href: '/', icon: LayoutDashboard, roles: ['admin', 'manager', 'employee'] }
+    ];
+
+    // Admin a accès à tout
+    if (user?.role === 'admin') {
+      return [
+        ...baseNav,
+        { name: 'Utilisateurs', href: '/users', icon: Users, roles: ['admin'] },
+        { name: 'Commandes', href: '/orders', icon: ShoppingCart, roles: ['admin', 'manager', 'employee'] },
+        { name: 'Tables', href: '/tables', icon: Grid, roles: ['admin', 'manager'] },
+        { name: 'Produits', href: '/products', icon: Package, roles: ['admin', 'manager'] },
+        { name: 'Catégories', href: '/categories', icon: Layers, roles: ['admin', 'manager'] },
+        { name: 'Fournisseurs', href: '/suppliers', icon: Truck, roles: ['admin', 'manager'] },
+        { name: 'Mouvements', href: '/movements', icon: TrendingUp, roles: ['admin', 'manager'] },
+        { name: 'Rapports', href: '/reports', icon: FileText, roles: ['admin', 'manager'] },
+      ];
+    }
+
+    // Manager peut gérer stock et fournisseurs
+    if (user?.role === 'manager') {
+      return [
+        ...baseNav,
+        { name: 'Commandes', href: '/orders', icon: ShoppingCart, roles: ['admin', 'manager', 'employee'] },
+        { name: 'Tables', href: '/tables', icon: Grid, roles: ['admin', 'manager'] },
+        { name: 'Produits', href: '/products', icon: Package, roles: ['admin', 'manager'] },
+        { name: 'Catégories', href: '/categories', icon: Layers, roles: ['admin', 'manager'] },
+        { name: 'Fournisseurs', href: '/suppliers', icon: Truck, roles: ['admin', 'manager'] },
+        { name: 'Mouvements', href: '/movements', icon: TrendingUp, roles: ['admin', 'manager'] },
+        { name: 'Rapports', href: '/reports', icon: FileText, roles: ['admin', 'manager'] },
+      ];
+    }
+
+    // Employee ne voit que les commandes
+    if (user?.role === 'employee') {
+      return [
+        ...baseNav,
+        { name: 'Commandes', href: '/orders', icon: ShoppingCart, roles: ['admin', 'manager', 'employee'] },
+      ];
+    }
+
+    return baseNav;
+  };
+
+  const navigation = useMemo(() => getNavigation(), [user?.role]);
 
   const isActive = (path) => location.pathname === path;
 
