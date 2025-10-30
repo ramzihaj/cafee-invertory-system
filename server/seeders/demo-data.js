@@ -43,7 +43,9 @@ const seedDemoData = async () => {
         phone: '06 45 67 89 01',
         isActive: true
       }
-    ]);
+    ], {
+      individualHooks: true  // IMPORTANT: Active les hooks beforeSave pour hasher les passwords
+    });
     console.log(`✅ ${users.length} utilisateurs créés`);
 
     // 2. Créer les catégories

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node seeders/seed.js"
+    "seed": "node seeders/demo-data.js",
+    "seed:full": "node seeders/seed-full-products.js",
+    "seed:basic": "node seeders/demo-data.js"
   },
   "keywords": ["inventory", "cafe", "stock", "management"],
   "author": "",
